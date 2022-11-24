@@ -3,6 +3,8 @@
     <color name="primary">#023047</color>
     <color name="primary_variant">#219EBC</color>
     <color name="accent">#FB8500</color>
+    <color name="accent_variant">#FFB703</color>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
+    <color name="calc_background">#F5EBE0</color>
 </resources>
