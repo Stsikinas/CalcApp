@@ -11,6 +11,7 @@
     <string name="_9">9</string>
     <string name="_0">0</string>
     <string name="add">+</string>
+    <string name="decimal">.</string>
     <string name="subtract">-</string>
     <string name="multiply">*</string>
     <string name="divide">/</string>

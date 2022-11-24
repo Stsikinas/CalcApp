@@ -10,6 +10,8 @@ import android.widget.Toast
 class MainActivity : AppCompatActivity() {
 
     private var tvInput: TextView? = null
+    private var isNumeric: Boolean = false
+    private var isDecimal: Boolean = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -20,11 +22,22 @@ class MainActivity : AppCompatActivity() {
 
 
     fun onDigit(view: View) {
+        if (!isNumeric)
+            isNumeric = true
         tvInput?.append((view as Button).text)
     }
 
     fun onClear(view: View) {
-        tvInput?.text = ""
+        tvInput?.text = getString(R.string._0)
+        isDecimal = false
+        isNumeric = true
+    }
+
+    fun onDecimal(view: View) {
+        if (isNumeric && !isDecimal) {
+            tvInput?.append(getString(R.string.decimal))
+            isDecimal = true
+        }
     }
 
 }
