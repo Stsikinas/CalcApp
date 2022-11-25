@@ -51,6 +51,12 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+    fun onEqual(view: View) {
+        if(isNumeric) {
+            var tvValue = tvInput?.text.toString()
+        }
+    }
+
     fun isNumNegative(value: String) : Boolean {
         return value.startsWith("-")
     }
