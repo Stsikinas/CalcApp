@@ -28,7 +28,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     fun onClear(view: View) {
-        tvInput?.text = getString(R.string._0)
+        tvInput?.text = ""
         isDecimal = false
         isNumeric = true
     }
@@ -37,7 +37,34 @@ class MainActivity : AppCompatActivity() {
         if (isNumeric && !isDecimal) {
             tvInput?.append(getString(R.string.decimal))
             isDecimal = true
+            isNumeric = false
         }
+    }
+
+    fun onOperator(view: View) {
+        tvInput?.text?.let {
+            if (isNumeric && !isOperatorAdded(it.toString())) {
+                tvInput?.append((view as Button).text)
+                isNumeric = false
+                isDecimal = false
+            }
+        }
+    }
+
+    fun isNumNegative(value: String) : Boolean {
+        return value.startsWith("-")
+    }
+
+    fun hasOperator(value: String) : Boolean {
+        return value.contains("+") || value.contains("-")
+                || value.contains("*") || value.contains("/")
+    }
+
+    fun isOperatorAdded(value: String) : Boolean {
+        if (isNumNegative(value) && !hasOperator(value.replace("-", "")))
+            return false
+        else
+            return hasOperator(value)
     }
 
 }

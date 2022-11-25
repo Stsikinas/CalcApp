@@ -59,7 +59,7 @@
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:layout_margin="2dp"
-            android:onClick="onDigit"
+            android:onClick="onOperator"
             tools:ignore="UsingOnClickInXml"
             android:text="@string/divide" />
 
@@ -107,7 +107,7 @@
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:layout_margin="2dp"
-            android:onClick="onDigit"
+            android:onClick="onOperator"
             tools:ignore="UsingOnClickInXml"
             android:text="@string/multiply" />
 
@@ -155,7 +155,7 @@
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:layout_margin="2dp"
-            android:onClick="onDigit"
+            android:onClick="onOperator"
             tools:ignore="UsingOnClickInXml"
             android:text="@string/subtract" />
 
@@ -195,7 +195,7 @@
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:layout_margin="2dp"
-            android:onClick="onDigit"
+            android:onClick="onOperator"
             tools:ignore="UsingOnClickInXml"
             android:text="@string/add" />
 
