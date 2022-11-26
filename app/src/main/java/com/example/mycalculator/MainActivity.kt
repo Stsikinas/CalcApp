@@ -5,12 +5,11 @@ import android.os.Bundle
 import android.view.View
 import android.widget.Button
 import android.widget.TextView
-import android.widget.Toast
 
 class MainActivity : AppCompatActivity() {
 
     private var tvInput: TextView? = null
-    private var isNumeric: Boolean = false
+    private var lastNumeric: Boolean = false
     private var isDecimal: Boolean = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -22,55 +21,110 @@ class MainActivity : AppCompatActivity() {
 
 
     fun onDigit(view: View) {
-        if (!isNumeric)
-            isNumeric = true
+        if (!lastNumeric)
+            lastNumeric = true
         tvInput?.append((view as Button).text)
     }
 
     fun onClear(view: View) {
         tvInput?.text = ""
         isDecimal = false
-        isNumeric = true
+        lastNumeric = true
     }
 
     fun onDecimal(view: View) {
-        if (isNumeric && !isDecimal) {
+        if (lastNumeric && !isDecimal) {
             tvInput?.append(getString(R.string.decimal))
             isDecimal = true
-            isNumeric = false
+            lastNumeric = false
         }
     }
 
     fun onOperator(view: View) {
         tvInput?.text?.let {
-            if (isNumeric && !isOperatorAdded(it.toString())) {
+            if (lastNumeric && !isOperatorAdded(it.toString())) {
                 tvInput?.append((view as Button).text)
-                isNumeric = false
+                lastNumeric = false
                 isDecimal = false
             }
         }
     }
 
     fun onEqual(view: View) {
-        if(isNumeric) {
+        if(lastNumeric) {
             var tvValue = tvInput?.text.toString()
+            var prefix = ""
+            val operation: String
+            val splitValues: Array<String>
+            try {
+                if (tvValue.startsWith("-")) {
+                    prefix = "-"
+                    tvValue = tvValue.substring(1)
+                }
+                operation = if (tvValue.contains("-")) {
+                    "-"
+
+                } else if (tvValue.contains("+")) {
+                    "+"
+
+                }  else if (tvValue.contains("/")) {
+                    "/"
+                } else {
+                    "*"
+                }
+                splitValues = tvValue.split(operation).toTypedArray()
+
+                var firstValue = splitValues[0]
+                val secondValue = splitValues[1]
+
+                if (prefix.isNotEmpty())
+                    firstValue = prefix + firstValue
+
+                var result = ""
+
+                when(operation) {
+                    "+" -> result = (roundValue(firstValue)
+                            + roundValue(secondValue)).toString()
+                    "-" -> result = (roundValue(firstValue)
+                            - roundValue(secondValue)).toString()
+                    "*" -> result = (roundValue(firstValue)
+                            * roundValue(secondValue)).toString()
+                    "/" -> result = (roundValue(firstValue)
+                            / roundValue(secondValue)).toString()
+                }
+
+                tvInput?.text = removeZeroAfterDot(result)
+
+            } catch (e: ArithmeticException) {
+                e.printStackTrace()
+            }
         }
     }
 
-    fun isNumNegative(value: String) : Boolean {
+    private fun isNumNegative(value: String) : Boolean {
         return value.startsWith("-")
     }
 
-    fun hasOperator(value: String) : Boolean {
+    private fun hasOperator(value: String) : Boolean {
         return value.contains("+") || value.contains("-")
                 || value.contains("*") || value.contains("/")
     }
 
-    fun isOperatorAdded(value: String) : Boolean {
-        if (isNumNegative(value) && !hasOperator(value.replace("-", "")))
-            return false
+    private fun isOperatorAdded(value: String) : Boolean {
+        return if (isNumNegative(value) && !hasOperator(value.substring(1)))
+            false
         else
-            return hasOperator(value)
+            hasOperator(value)
+    }
+
+    private fun removeZeroAfterDot(value: String) : String {
+        if (value.endsWith(".0"))
+            return value.split(".")[0]
+        return value
+    }
+
+        private fun roundValue(value: String) : Double {
+        return String.format("%.3f", value.toDoubleOrNull()).toDouble()
     }
 
 }
