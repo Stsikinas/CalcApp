@@ -93,7 +93,7 @@ class MainActivity : AppCompatActivity() {
                             / roundValue(secondValue)).toString()
                 }
 
-                tvInput?.text = removeZeroAfterDot(result)
+                tvInput?.text = removeZeroAfterDot(roundValue(result).toString())
 
             } catch (e: ArithmeticException) {
                 e.printStackTrace()
